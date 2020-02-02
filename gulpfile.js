@@ -36,15 +36,25 @@ const html = cb => {
     ], cb);
 };
 
+// просто копирование из папки src в папку build
+const js = cb => {
+    pump([
+        gulp.src('src/*.js'),
+        gulp.dest('build/'),
+        reload({stream: true})
+    ], cb);
+};
+
 // задание для перекомпиляции при изменении
 const watching = () => {
     gulp.watch('src/*.scss', style);
     gulp.watch('src/*.html', html);
+    gulp.watch('src/*.js', js);
 };
 
 // основная gulp задание, которое запускается через gulp
 const defaultFunc = (cb) => {
-    gulp.parallel(style, html);
+    gulp.parallel(style, html, js);
     cb();
 };
 
