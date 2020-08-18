@@ -1,1 +1,1 @@
-console.log('хуй');
+console.log('ку');
