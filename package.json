@@ -1,23 +1,30 @@
 {
-  "name": "gulptemplatehotreload",
+  "name": "gulpboilerplate",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.html",
   "license": "MIT",
   "browserslist": [
     "defaults"
   ],
   "scripts": {
-    "dev": "gulp dev"
+    "start": "gulp dev",
+    "lint": "eslint ./src/**/*.js & stylelint ./src/**/*.scss",
+    "lint-fix": "eslint ./src/**/*.js --fix & stylelint ./src/**/*.scss --fix"
   },
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "del": "^6.0.0",
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.3.0",
     "gulp-htmlmin": "^5.0.1",
     "gulp-sass": "^4.1.0",
     "gulp-uglify": "^3.0.2",
-    "pump": "^3.0.0"
+    "pump": "^3.0.0",
+    "stylelint": "^13.8.0",
+    "stylelint-config-sass-guidelines": "^7.1.0"
   }
 }
