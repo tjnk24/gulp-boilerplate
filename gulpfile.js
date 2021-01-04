@@ -1,64 +1,78 @@
 const gulp = require('gulp');
+const browserSync = require('browser-sync');
 const sass = require('gulp-sass');
 const pump = require('pump');
-const browserSync = require('browser-sync');
+const cleanFolder = require('del');
+const minifyHtml = require('gulp-htmlmin');
+const minifyCss = require('gulp-clean-css');
+const autoprefixer = require('gulp-autoprefixer');
+const minifyJs = require('gulp-uglify');
 
 // потребуется для оповещения о изменении live-reload сервера
 const reload = browserSync.reload;
 
 // задание запускает live-reload сервер
-const browsSync = () => {
-    browserSync({
+const browsSync = () => browserSync({
         server: {
             baseDir: './build'
         },
         open: false,
         notify: false
-    })
-};
+    });
 
-// компиляции стилей scss -> css
-const style = cb => {
-    pump([
-        gulp.src('src/*.scss'),
+// минификация html, копирование из папки src в папку build
+const copyHtml = (cb) => pump([
+        gulp.src('src/**/*.html'),
+        minifyHtml({ collapseWhitespace: true }),
+        gulp.dest('build/'),
+        reload({stream: true})
+    ], cb);
+
+// минификация js, копирование из папки src в папку build
+const copyJs = (cb) => pump([
+        gulp.src('src/**/*.js'),
+        minifyJs(),
+        gulp.dest('build/'),
+        reload({stream: true})
+    ], cb);
+
+// компиляция стилей scss -> css, автопрефиксер, минификация
+const parseAndCopyStyles = (cb) => pump([
+        gulp.src('src/**/*.scss'),
         sass().on('error', sass.logError),
+        autoprefixer(),
+        minifyCss(),
         gulp.dest('build/'),
         reload({stream: true})
     ], cb)
-};
 
-// просто копирование из папки src в папку build
-const html = cb => {
-    pump([
-        gulp.src('src/index.html'),
-        gulp.dest('build/'),
+// копирование картинок из src/img в build/img
+const copyImages = (cb) => pump([
+        gulp.src('src/img/*'),
+        gulp.dest('build/img/'),
         reload({stream: true})
     ], cb);
+
+// наблюдение за файлами при сохранении
+const watchFiles = () => {
+    gulp.watch('src/**/*.html', copyHtml);
+    gulp.watch('src/**/*.js', copyJs);
+    gulp.watch('src/**/*.scss', parseAndCopyStyles);
+    gulp.watch('src/img/*', copyImages);
 };
 
-// просто копирование из папки src в папку build
-const js = cb => {
+// стартовое задание, которое запускается через gulp
+const initializeBuild = (cb) => {
+    cleanFolder('./build/**', { force: true });
     pump([
-        gulp.src('src/*.js'),
-        gulp.dest('build/'),
-        reload({stream: true})
+        copyHtml(),
+        copyJs(),
+        parseAndCopyStyles(),
+        copyImages()
     ], cb);
-};
-
-// задание для перекомпиляции при изменении
-const watching = () => {
-    gulp.watch('src/*.scss', style);
-    gulp.watch('src/*.html', html);
-    gulp.watch('src/*.js', js);
-};
-
-// основная gulp задание, которое запускается через gulp
-const defaultFunc = (cb) => {
-    gulp.parallel(style, html, js);
-    cb();
 };
 
 // запуск live-reload сервера с отслеживанием изменений
-gulp.task('dev', gulp.parallel(defaultFunc, watching, browsSync));
+gulp.task('dev', gulp.parallel(initializeBuild, watchFiles, browsSync));
 
-exports.default = defaultFunc;
+exports.default = initializeBuild;

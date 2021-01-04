@@ -1,0 +1,9 @@
+@import './reset.scss';
+
+.test {
+    color: blue;
+
+    &__nested {
+        color: green;
+    }
+}
