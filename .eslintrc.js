@@ -7,8 +7,9 @@ module.exports = {
     'airbnb-base',
   ],
   rules: {
+    indent: ['error', 2],
+    'no-unused-vars': 'warn',
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
-    indent: ['error', 2],
   },
 };
