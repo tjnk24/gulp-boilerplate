@@ -3,6 +3,6 @@ module.exports = {
   rules: {
     "max-nesting-depth": null,
     "selector-max-id": null,
-    "indentation": 2,
+    "indentation": 4,
   }
 }
