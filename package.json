@@ -1,5 +1,5 @@
 {
-  "name": "gulpboilerplate",
+  "name": "gulp-boilerplate",
   "version": "1.0.0",
   "main": "src/index.html",
   "license": "MIT",
@@ -12,19 +12,20 @@
     "lint-fix": "eslint ./src/**/*.js --fix & stylelint ./src/**/*.scss --fix"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.13",
-    "del": "^6.0.0",
-    "eslint": "^7.17.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-sass": "^4.1.0",
-    "gulp-uglify": "^3.0.2",
-    "pump": "^3.0.0",
-    "stylelint": "^13.8.0",
-    "stylelint-config-sass-guidelines": "^7.1.0"
+    "browser-sync": "2.27.4",
+    "del": "6.0.0",
+    "eslint": "7.31.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.23.4",
+    "gulp": "4.0.2",
+    "gulp-autoprefixer": "8.0.0",
+    "gulp-clean-css": "4.3.0",
+    "gulp-htmlmin": "5.0.1",
+    "gulp-sass": "5.0.0",
+    "gulp-uglify": "3.0.2",
+    "pump": "3.0.0",
+    "sass": "^1.35.2",
+    "stylelint": "13.13.1",
+    "stylelint-config-sass-guidelines": "8.0.0"
   }
 }

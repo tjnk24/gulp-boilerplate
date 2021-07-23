@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const pump = require('pump');
 const cleanFolder = require('del');
 const minifyHtml = require('gulp-htmlmin');
