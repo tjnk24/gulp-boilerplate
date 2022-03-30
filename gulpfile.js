@@ -65,11 +65,11 @@ const copyFiles = () => {
     ]);
 };
 
-const embedSvgs = () => gulp.task('embedSvgs', () => {
-    return gulp.src('src/*.html')
-        .pipe(gulpEmbedSvg())
-        .pipe(gulp.dest('src/img/*'));
-});
+const embedSvgs = () => pump([
+    gulp.src('src/*.html'),
+    gulpEmbedSvg(),
+    gulp.dest('src/img/*'),
+]);
 
 // наблюдение за файлами при сохранении
 const watchFiles = () => {
