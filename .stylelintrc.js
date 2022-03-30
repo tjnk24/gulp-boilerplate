@@ -4,5 +4,6 @@ module.exports = {
     "max-nesting-depth": null,
     "selector-max-id": null,
     "indentation": 4,
+    "selector-class-pattern": "[A-z]+",
   }
 }

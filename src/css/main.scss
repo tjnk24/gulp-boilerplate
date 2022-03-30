@@ -1,9 +1,13 @@
 @import url('./reset.scss');
 
 .test {
-  color: #0ff;
+    color: #0ff;
 
-  &__nested {
-    color: #008000;
-  }
+    &__nested {
+        color: #008000;
+    }
+}
+
+.svgImage {
+    width: 200px;
 }
