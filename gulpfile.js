@@ -8,6 +8,9 @@ const minifyCss = require('gulp-clean-css');
 const autoprefixer = require('gulp-autoprefixer');
 const minifyJs = require('gulp-uglify');
 const gulpEmbedSvg = require('gulp-embed-svg');
+const babel = require('gulp-babel');
+const plumber = require('gulp-plumber');
+const gulpConcat = require('gulp-concat');
 
 // потребуется для оповещения о изменении live-reload сервера
 const {reload} = browserSync;
@@ -35,7 +38,15 @@ const copyJs = () => {
 
     return pump([
         gulp.src('src/**/*.js'),
-        minifyJs(),
+        plumber(),
+        babel({
+            sourceType: 'module',
+            presets: [
+                ['@babel/env'],
+            ],
+        }),
+        gulpConcat('js/index.js'),
+        // minifyJs(),
         gulp.dest('build/'),
         reload({stream: true}),
     ]);

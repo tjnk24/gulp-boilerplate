@@ -6,10 +6,14 @@ module.exports = {
     env: {
         es6: true,
         node: true,
+        browser: true,
     },
     extends: [
         'eslint:recommended',
     ],
+    parserOptions: {
+        sourceType: 'module',
+    },
     rules: {
         'arrow-parens': ['error', 'as-needed'],
         camelcase: 0,
@@ -62,7 +66,6 @@ module.exports = {
         'no-prototype-builtins': 0,
         'no-return-await': 0,
         'no-underscore-dangle': 0,
-        'no-unused-vars': 0,
         'no-use-before-define': 0,
         'no-useless-escape': 0,
         'prefer-rest-params': 0,
