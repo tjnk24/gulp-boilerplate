@@ -46,7 +46,7 @@ const copyJs = () => {
             ],
         }),
         gulpConcat('js/index.js'),
-        // minifyJs(),
+        minifyJs(),
         gulp.dest('build/'),
         reload({stream: true}),
     ]);
