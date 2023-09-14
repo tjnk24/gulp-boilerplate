@@ -1,4 +1,7 @@
 module.exports = {
+    parserOptions: {
+        sourceType: 'module',
+    },
     plugins: [
         'eslint-plugin',
         'import',
@@ -62,7 +65,6 @@ module.exports = {
         'no-prototype-builtins': 0,
         'no-return-await': 0,
         'no-underscore-dangle': 0,
-        'no-unused-vars': 0,
         'no-use-before-define': 0,
         'no-useless-escape': 0,
         'prefer-rest-params': 0,
