@@ -1,0 +1,192 @@
+{
+  "Id": "in_1No22RHDz7ZMZ9kONkogDhE6",
+  "Object": "invoice",
+  "AccountCountry": "CA",
+  "AccountName": "Sandbox-Rosenberg-2021-10",
+  "AmountDue": 339000,
+  "AmountPaid": 339000,
+  "AmountRemaining": 0,
+  "AttemptCount": 1,
+  "Attempted": true,
+  "AutoAdvance": false,
+  "AutomaticTax": {
+    "Enabled": false,
+    "RawJObject": {
+      "enabled": "False",
+      "status": ""
+    }
+  },
+  "BillingReason": "subscription_cycle",
+  "ChargeId": "ch_3No22THDz7ZMZ9kO0O6AXC27",
+  "CollectionMethod": "charge_automatically",
+  "Created": "2023-09-08T10:35:47+00:00",
+  "Currency": "usd",
+  "CustomerId": "cus_OPzV2PHJut6yli",
+  "CustomerAddress": {
+    "City": "Ottawa",
+    "Country": "CA",
+    "Line1": "5460 Canotek Road, Gloucester, ON, Canada",
+    "PostalCode": "K1J 9G2",
+    "State": "Ontario"
+  },
+  "CustomerEmail": "group_admin@email.com",
+  "CustomerName": "John Doe",
+  "CustomerPhone": "+12107977753",
+  "CustomerTaxExempt": "none",
+  "CustomerTaxIds": [],
+  "DefaultTaxRates": [
+    {
+      "Id": "txr_1Jw1GUHDz7ZMZ9kO2fEsS5h9",
+      "Object": "tax_rate",
+      "Active": true,
+      "Country": "CA",
+      "Created": "2021-11-15T09:14:14+00:00",
+      "Description": "Ontario",
+      "DisplayName": "TAX",
+      "Inclusive": false,
+      "Livemode": false,
+      "Metadata": {},
+      "Percentage": 13,
+      "State": "ON"
+    }
+  ],
+  "Description": "Memo Test - Line 1\nMemo Test - Line 2",
+  "DiscountIds": [],
+  "Discounts": [],
+  "EndingBalance": 0,
+  "Footer": "Footer Test - Line 1\n<b>Footer Test - Line 2</b>",
+  "HostedInvoiceUrl": "https://invoice.stripe.com/i/acct_1Jqb32HDz7ZMZ9kO/test_YWNjdF8xSnFiMzJIRHo3Wk1aOWtPLF9PYkVWOGNvT1dZQmZFRWV2VkI2SDhxNzdGS3RhMXRpLDg1MTUwNzU00200pvmah7uN?s=ap",
+  "InvoicePdf": "https://pay.stripe.com/invoice/acct_1Jqb32HDz7ZMZ9kO/test_YWNjdF8xSnFiMzJIRHo3Wk1aOWtPLF9PYkVWOGNvT1dZQmZFRWV2VkI2SDhxNzdGS3RhMXRpLDg1MTUwNzU00200pvmah7uN/pdf?s=ap",
+  "Lines": [
+    {
+      "Id": "il_1No22RHDz7ZMZ9kOLmrhZ6YT",
+      "Object": "line_item",
+      "Amount": 300000,
+      "AmountExcludingTax": 300000,
+      "Currency": "usd",
+      "Description": "1 × Premium (at $3,000.00 / year)",
+      "DiscountAmounts": [],
+      "Discountable": true,
+      "DiscountIds": [],
+      "Discounts": [],
+      "Livemode": false,
+      "Metadata": {},
+      "Period": {
+        "End": 1725790928,
+        "Start": 1694168528,
+        "RawJObject": {
+          "end": "1725790928",
+          "start": "1694168528"
+        }
+      },
+      "Plan": {
+        "Id": "price_1Jw0D0HDz7ZMZ9kO4zdUzoQS",
+        "Object": "plan",
+        "Active": true,
+        "Amount": 300000,
+        "AmountDecimal": 300000,
+        "BillingScheme": "per_unit",
+        "Created": "2021-11-15T08:06:34+00:00",
+        "Currency": "usd",
+        "Interval": "year",
+        "IntervalCount": 1,
+        "Livemode": false,
+        "Metadata": {},
+        "Nickname": "Standard Price",
+        "ProductId": "prod_KbCc9xcG0PP2cY",
+        "UsageType": "licensed"
+      },
+      "Price": {
+        "Id": "price_1Jw0D0HDz7ZMZ9kO4zdUzoQS",
+        "Object": "price",
+        "Active": true,
+        "BillingScheme": "per_unit",
+        "Created": "2021-11-15T08:06:34+00:00",
+        "Currency": "usd",
+        "Livemode": false,
+        "Metadata": {},
+        "Nickname": "Standard Price",
+        "ProductId": "prod_KbCc9xcG0PP2cY",
+        "Recurring": {
+          "Interval": "year",
+          "IntervalCount": 1,
+          "UsageType": "licensed"
+        },
+        "TaxBehavior": "unspecified",
+        "Type": "recurring",
+        "UnitAmount": 300000,
+        "UnitAmountDecimal": 300000
+      },
+      "Proration": false,
+      "ProrationDetails": {},
+      "Quantity": 1,
+      "Subscription": "sub_1Nd9WmHDz7ZMZ9kOVWpB8NsP",
+      "SubscriptionItem": "si_OPzVv02A6v7GVI",
+      "TaxAmounts": [
+        {
+          "Amount": 39000,
+          "Inclusive": false,
+          "TaxRateId": "txr_1Jw1GUHDz7ZMZ9kO2fEsS5h9",
+          "RawJObject": {
+            "amount": "39000",
+            "inclusive": "False",
+            "tax_rate": "txr_1Jw1GUHDz7ZMZ9kO2fEsS5h9"
+          }
+        }
+      ],
+      "TaxRates": [],
+      "Type": "subscription",
+      "UnitAmountExcludingTax": 300000
+    }
+  ],
+  "Livemode": false,
+  "Metadata": {},
+  "Number": "4E1DC2F4-0002",
+  "Paid": true,
+  "PaidOutOfBand": false,
+  "PaymentIntentId": "pi_3No22THDz7ZMZ9kO0VjTt8zc",
+  "PaymentSettings": {
+    "RawJObject": {
+      "default_mandate": "",
+      "payment_method_options": "",
+      "payment_method_types": ""
+    }
+  },
+  "PeriodEnd": "2023-09-08T10:22:08+00:00",
+  "PeriodStart": "2023-08-09T10:22:08+00:00",
+  "PostPaymentCreditNotesAmount": 0,
+  "PrePaymentCreditNotesAmount": 0,
+  "StartingBalance": 0,
+  "Status": "paid",
+  "StatusTransitions": {
+    "FinalizedAt": "2023-09-08T10:35:49+00:00",
+    "PaidAt": "2023-09-08T11:47:54+00:00",
+    "RawJObject": {
+      "finalized_at": "1694169349",
+      "marked_uncollectible_at": "",
+      "paid_at": "1694173674",
+      "voided_at": ""
+    }
+  },
+  "SubscriptionId": "sub_1Nd9WmHDz7ZMZ9kOVWpB8NsP",
+  "SubscriptionProrationDate": "1970-01-01T00:00:00+00:00",
+  "Subtotal": 300000,
+  "SubtotalExcludingTax": 300000,
+  "Tax": 39000,
+  "Total": 339000,
+  "TotalDiscountAmounts": [],
+  "TotalExcludingTax": 300000,
+  "TotalTaxAmounts": [
+    {
+      "Amount": 39000,
+      "Inclusive": false,
+      "TaxRateId": "txr_1Jw1GUHDz7ZMZ9kO2fEsS5h9",
+      "RawJObject": {
+        "amount": "39000",
+        "inclusive": "False",
+        "tax_rate": "txr_1Jw1GUHDz7ZMZ9kO2fEsS5h9"
+      }
+    }
+  ],
+  "WebhooksDeliveredAt": "2023-09-08T10:35:50+00:00"
+}

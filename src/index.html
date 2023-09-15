@@ -1,25 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/main.css">
-</head>
-<body>
-        <div class="test">
-            div
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Invoice</title>
 
-            <div class="test__nested">nested div</div>
+        <style>
+            html {
+                height: 100%;
+                background-color: #ccc;
+                font-family: Work Sans, sans-serif;
+            }
+
+            body {
+                display: block;
+                margin: 24px auto;
+                padding: 24px;
+                max-width: 1024px;
+                background-color: #fff;
+            }
+
+            /* root */
+            .InvoiceTemplate {
+                padding: 46px;
+                border-top: 8px solid #9d2235;
+            }
+
+            /* header */
+            .InvoiceTemplate__header {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .InvoiceTemplate__header svg {
+                width: 46px;
+            }
+
+            /* info */
+            .InvoiceTemplateInfo {
+                font-size: 14px;
+            }
+
+            /* info number and dates*/
+            .InvoiceTemplateInfo__numberDates {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                font-weight: 600;
+                margin-bottom: 32px;
+            }
+
+            .InvoiceTemplateInfo__row {
+                display: flex;
+            }
+
+            .InvoiceTemplateInfo__leftCol {
+                display: block;
+                width: 130px;
+            }
+
+            /* info address and bill to*/
+            .InvoiceTemplateInfo__addressBillTo {
+                display: flex;
+                gap: 24px;
+                width: 100%;
+                max-width: 600px;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                margin-bottom: 46px;
+            }
+
+            .InvoiceTemplateInfo__addressBillToTitle {
+                font-weight: 600;
+            }
+
+            .InvoiceTemplateInfo__addressBillToList {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .InvoiceTemplateInfo__payLink {
+                display: block;
+                margin-bottom: 46px;
+            }
+
+            /* table */
+            .InvoiceTemplateTable {
+                overflow-x: auto;
+                margin-bottom: 26px;
+            }
+
+            .InvoiceTemplateTable__table {
+                width: 100%;
+                text-align: left;
+                border-collapse: collapse;
+                min-width: 440px;
+            }
+
+            .InvoiceTemplateTable__table thead {
+                border-bottom: 1px solid #000;
+            }
+
+            .InvoiceTemplateTable__table th,
+            .InvoiceTemplateTable__table td {
+                padding: 10px;
+            }
+
+            .InvoiceTemplateTable__table th:first-child,
+            .InvoiceTemplateTable__table td:first-child {
+                padding-left: 0;
+            }
+
+            .InvoiceTemplateTable__table th:last-child,
+            .InvoiceTemplateTable__table td:last-child {
+                padding-right: 0;
+                text-align: right;
+            }
+
+            .InvoiceTemplateTable__table thead th {
+                font-weight: normal;
+                font-size: 12px;
+            }
+
+            .InvoiceTemplateTable__description {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            /* totals */
+            .InvoiceTemplateTotals {
+                display: flex;
+                flex-direction: column;
+                margin-left: auto;
+                width: 100%;
+                max-width: 420px;
+                margin-bottom: 32px;
+            }
+
+            .InvoiceTemplateTotals__row {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px solid #ebebeb;
+            }
+
+            .InvoiceTemplateTotals__row:last-child {
+                border: none;
+            }
+
+            .InvoiceTemplateTotals__row_bold {
+                font-weight: 600;
+            }
+
+            /* footer */
+            .InvoiceTemplateFooter__footnote {
+                display: block;
+                margin-bottom: 32px;
+            }
+
+            .InvoiceTemplateFooter__bottom {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            @media screen and (max-width: 576px) {
+                .InvoiceTemplate {
+                    padding: 12px;
+                }
+
+                .InvoiceTemplateInfo__numberDates {
+                    gap: 12px;
+                }
+
+                .InvoiceTemplateInfo__row {
+                    flex-direction: column;
+                    gap: 4px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="InvoiceTemplate">
+            <header class="InvoiceTemplate__header">
+                <h1>Invoice</h1>
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 58.2 44.9"
+                >
+                    <path
+                        d="M58.2,44.9l-11-18.1a14.09,14.09,0,0,0,5.3-4.4,13.57,13.57,0,0,0,2.3-8c0-4.5-1.6-8.1-4.7-10.6S42.9,0,37.5,0H0V44.9H58.2ZM45.7,42.5h0m-7.1-40c4.3.1,7.7,1.2,10,3.2a10.65,10.65,0,0,1,3.8,8.7,11.38,11.38,0,0,1-1.9,6.7A11.79,11.79,0,0,1,45,25.2l-1.4.5L53.8,42.5H45.7l-9.6-16a13.53,13.53,0,0,0,6.3-4.8,13.38,13.38,0,0,0,2.2-7.8c0-4.4-1.5-7.8-4.4-10.2a16.67,16.67,0,0,0-1.6-1.2h0M12,2.5h0ZM8.6,42.4V33.2H5.7v9.2H2.9V2.5H27.6c4.6,0,8.1,1,10.5,2.9s3.6,4.8,3.6,8.5a10.9,10.9,0,0,1-2.4,7.3,13.47,13.47,0,0,1-7.2,3.9L42.4,42.4H26.5V9.4H23.6V42.5h-3V16H17.7V42.4h-3V25.1H11.8V42.4H8.6Z"
+                        style="fill: #9d2235"
+                    />
+                </svg>
+            </header>
+
+            <div class="InvoiceTemplateInfo">
+                <div class="InvoiceTemplateInfo__numberDates">
+                    <div class="InvoiceTemplateInfo__row">
+                        <span class="InvoiceTemplateInfo__leftCol">
+                            Invoice number&#58;
+                        </span>
+
+                        <span>
+                            33DEA5F4-0002
+                        </span>
+                    </div>
+
+                    <div class="InvoiceTemplateInfo__row">
+                        <span class="InvoiceTemplateInfo__leftCol">
+                            Date of issue&#58;
+                        </span>
+
+                        <span>
+                            July 16&#44; 2023
+                        </span>
+                    </div>
+
+                    <div class="InvoiceTemplateInfo__row">
+                        <span class="InvoiceTemplateInfo__leftCol">
+                            Date due&#58;
+                        </span>
+
+                        <span>
+                            July 26&#44; 2023
+                        </span>
+                    </div>
+                </div>
+
+                <div class="InvoiceTemplateInfo__addressBillTo">
+                    <div class="InvoiceTemplateInfo__addressBillToList">
+                        <span class="InvoiceTemplateInfo__addressBillToTitle">
+                            Rosenberg Research &#38; Associates Inc.
+                        </span>
+
+                        <span>
+                            3080 Yonge Street
+                        </span>
+
+                        <span>
+                            Suite 6060
+                        </span>
+
+                        <span>
+                            Toronto Ontario M4N 3N1
+                        </span>
+
+                        <span>
+                            Canada
+                        </span>
+
+                        <span>
+                            +1 416-583-5566
+                        </span>
+
+                        <span>
+                            information@rosenbergresearch.com
+                        </span>
+                    </div>
+
+                    <div class="InvoiceTemplateInfo__addressBillToList">
+                        <span class="InvoiceTemplateInfo__addressBillToTitle">
+                            Bill To
+                        </span>
+
+                        <span>
+                            WESS Per
+                        </span>
+
+                        <span>
+                            1121 Potters Wheel Cres
+                        </span>
+
+                        <span>
+                            Oakville Ontario L6M1J3
+                        </span>
+
+                        <span>
+                            Canada
+                        </span>
+
+                        <span>
+                            +1 289-772-5510
+                        </span>
+
+                        <span>
+                            wes+3232@cappers.ca
+                        </span>
+                    </div>
+                </div>
+
+                <h2>
+                    $84.75 USD due July 26, 2023
+                </h2>
+
+                <a class="InvoiceTemplateInfo__payLink" href="#">
+                    Pay online
+                </a>
+
+                <div class="InvoiceTemplateTable">
+                    <table class="InvoiceTemplateTable__table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Description
+                                </th>
+
+                                <th>
+                                    Qty
+                                </th>
+
+                                <th>
+                                    Unit price
+                                </th>
+
+                                <th>
+                                    Tax
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="InvoiceTemplateTable__description">
+                                        <span>Custom</span>
+
+                                        <span>Jul 16 - Oct 16, 2023</span>
+                                    </div>
+                                </td>
+
+                                <td>1</td>
+
+                                <td>$75.00</td>
+
+                                <td>13%</td>
+
+                                <td>$75.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="InvoiceTemplateTotals">
+                    <div class="InvoiceTemplateTotals__row">
+                        <span>Subtotal</span>
+
+                        <span>$75.00</span>
+                    </div>
+
+                    <div class="InvoiceTemplateTotals__row">
+                        <span>Total excluding tax</span>
+
+                        <span>$75.00</span>
+                    </div>
+
+                    <div class="InvoiceTemplateTotals__row">
+                        <span>TAX (13% on $75.00)</span>
+
+                        <span>$9.75</span>
+                    </div>
+
+                    <div class="InvoiceTemplateTotals__row">
+                        <span>Total</span>
+
+                        <span>$84.75</span>
+                    </div>
+
+                    <div class="InvoiceTemplateTotals__row InvoiceTemplateTotals__row_bold">
+                        <span>Amount due</span>
+
+                        <span>$84.75 USD</span>
+                    </div>
+                </div>
+
+                <footer>
+                    <span class="InvoiceTemplateFooter__footnote">
+                        *All dollar values in USD
+                    </span>
+
+                    <div class="InvoiceTemplateFooter__bottom">
+                        <span>
+                            HST: 721806891
+                        </span>
+
+                        <span>
+                            Company Registration No: 721806891 RT0001
+                        </span>
+                    </div>
+                </footer>
+            </div>
         </div>
-
-        <img class="image" src="./img/image.jpg" alt="image" />
-
-        <img src="./img/image-png.png" alt="image" />
-
-        <img src="./img/image-svg.svg" class="svgImage"/>
-
-        <script type="text/javascript" src="./js/index.js"></script>
-</body>
+    </body>
 </html>

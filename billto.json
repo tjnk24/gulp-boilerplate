@@ -1,0 +1,10 @@
+{
+    "FullName": "John Doe",
+    "BillingAddress": "5460 Canotek Road, Gloucester, ON, Canada",
+    "Phone": {
+      "Prefix": 38,
+      "Code": "+1",
+      "Number": "2107977753"
+    },
+    "Email": "group_admin@email.com"
+  }
