@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% capture TemplateType %}
+        {% if Type == 'INVOICE' %}
+            Invoice
+        {% else %}
+            Receipt
+        {% endif %}
+    {% endcapture %}
     <head>
         <meta charset="UTF-8">
+
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Invoice</title>
+
+        <title>{{TemplateType}}</title>
 
         <style>
-            html {
-                height: 100%;
-                background-color: #ccc;
-                font-family: Work Sans, sans-serif;
-            }
-
             body {
-                display: block;
-                margin: 24px auto;
-                padding: 24px;
-                max-width: 1024px;
-                background-color: #fff;
+                margin: 0;
+                font-family: Work Sans,sans-serif;
             }
 
             /* root */
@@ -63,9 +64,10 @@
             /* info address and bill to*/
             .InvoiceTemplateInfo__addressBillTo {
                 display: flex;
-                gap: 24px;
+                column-gap: 64px;
+                row-gap: 32px;
                 width: 100%;
-                max-width: 600px;
+                max-width: 700px;
                 justify-content: space-between;
                 flex-wrap: wrap;
                 margin-bottom: 46px;
@@ -84,6 +86,11 @@
             .InvoiceTemplateInfo__payLink {
                 display: block;
                 margin-bottom: 46px;
+            }
+
+            /* description */
+            .InvoiceTemplateDescription {
+                margin-bottom: 24px;
             }
 
             /* table */
@@ -108,6 +115,11 @@
                 padding: 10px;
             }
 
+            .InvoiceTemplateTable__table td {
+                text-wrap: nowrap;
+                vertical-align: top;
+            }
+
             .InvoiceTemplateTable__table th:first-child,
             .InvoiceTemplateTable__table td:first-child {
                 padding-left: 0;
@@ -127,7 +139,18 @@
             .InvoiceTemplateTable__description {
                 display: flex;
                 flex-direction: column;
-                gap: 4px;
+                gap: 12px;
+            }
+
+            .InvoiceTemplateTable__descriptionListWrap {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .InvoiceTemplateTable__descriptionList {
+                margin: 0;
+                padding-left: 24px;
             }
 
             /* totals */
@@ -171,14 +194,16 @@
                 .InvoiceTemplate {
                     padding: 12px;
                 }
+            }
 
-                .InvoiceTemplateInfo__numberDates {
-                    gap: 12px;
-                }
-
+            @media screen and (max-width: 400px) {
                 .InvoiceTemplateInfo__row {
                     flex-direction: column;
                     gap: 4px;
+                }
+
+                .InvoiceTemplateInfo__numberDates {
+                    gap: 12px;
                 }
             }
         </style>
@@ -186,7 +211,9 @@
     <body>
         <div class="InvoiceTemplate">
             <header class="InvoiceTemplate__header">
-                <h1>Invoice</h1>
+                <h1>
+                    {{TemplateType}}
+                </h1>
 
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -207,60 +234,119 @@
                         </span>
 
                         <span>
-                            33DEA5F4-0002
+                            {{Invoice.Number | default: 'N/A'}}
                         </span>
                     </div>
+                    {% if Type == 'RECEIPT' %}
+                        <div class="InvoiceTemplateInfo__row">
+                            <span class="InvoiceTemplateInfo__leftCol">
+                                Receipt number&#58;
+                            </span>
 
-                    <div class="InvoiceTemplateInfo__row">
-                        <span class="InvoiceTemplateInfo__leftCol">
-                            Date of issue&#58;
-                        </span>
+                            <span>
+                                {{Invoice.ReceiptNumber}}
+                            </span>
+                        </div>
+                    {% endif %}
 
-                        <span>
-                            July 16&#44; 2023
-                        </span>
-                    </div>
+                    {% if Invoice.StatusTransitions.FinalizedAt %}
+                        <div class="InvoiceTemplateInfo__row">
+                            <span class="InvoiceTemplateInfo__leftCol">
+                                Date of issue&#58;
+                            </span>
 
-                    <div class="InvoiceTemplateInfo__row">
-                        <span class="InvoiceTemplateInfo__leftCol">
-                            Date due&#58;
-                        </span>
+                            <span>
+                                {{Invoice.StatusTransitions.FinalizedAt | format_date: 'MMMM d, yyyy'}}
+                            </span>
+                        </div>
+                    {% endif %}
 
-                        <span>
-                            July 26&#44; 2023
-                        </span>
-                    </div>
+                    {% if Type == 'RECEIPT' %}
+                        <div class="InvoiceTemplateInfo__row">
+                            <span class="InvoiceTemplateInfo__leftCol">
+                                Date paid&#58;
+                            </span>
+
+                            <span>
+                                {{Invoice.StatusTransitions.PaidAt | format_date: 'MMMM d, yyyy' | default: 'N/A'}}
+                            </span>
+                        </div>
+                    {% endif %}
+
+                    {% if Type == 'INVOICE' and Invoice.DueDate %}
+                        <div class="InvoiceTemplateInfo__row">
+                            <span class="InvoiceTemplateInfo__leftCol">
+                                Date due&#58;
+                            </span>
+
+                            <span>
+                                {{Invoice.DueDate | format_date: 'MMMM d, yyyy' | default: 'N/A'}}
+                            </span>
+                        </div>
+                    {% endif %}
+
+                    {% if Type == 'RECEIPT' and Invoice.Charge.PaymentMethodDetails %}
+                        <div class="InvoiceTemplateInfo__row">
+                            <span class="InvoiceTemplateInfo__leftCol">
+                                Payment method&#58;
+                            </span>
+
+                            <span>
+                                {{ Invoice.Charge.PaymentMethodDetails | display_charge_payment_method }}
+                            </span>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="InvoiceTemplateInfo__addressBillTo">
                     <div class="InvoiceTemplateInfo__addressBillToList">
-                        <span class="InvoiceTemplateInfo__addressBillToTitle">
-                            Rosenberg Research &#38; Associates Inc.
-                        </span>
+                        {% if Invoice.AccountName %}
+                            <span class="InvoiceTemplateInfo__addressBillToTitle">
+                                {{Invoice.AccountName}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            3080 Yonge Street
-                        </span>
+                        {% if Invoice.CustomerAddress.Line1 %}
+                            <span>
+                                {{Invoice.CustomerAddress.Line1}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            Suite 6060
-                        </span>
+                        {% if Invoice.CustomerAddress.Country %}
+                            <span>
+                                {{Invoice.CustomerAddress.Country}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            Toronto Ontario M4N 3N1
-                        </span>
+                        {% if Invoice.CustomerAddress.State %}
+                            <span>
+                                {{Invoice.CustomerAddress.State}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            Canada
-                        </span>
+                        {% if Invoice.CustomerAddress.City %}
+                            <span>
+                                {{Invoice.CustomerAddress.City}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            +1 416-583-5566
-                        </span>
+                        {% if Invoice.CustomerAddress.PostalCode %}
+                            <span>
+                                {{Invoice.CustomerAddress.PostalCode}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            information@rosenbergresearch.com
-                        </span>
+                        {% if Invoice.CustomerPhone %}
+                            <span>
+                                {{Invoice.CustomerPhone}}
+                            </span>
+                        {% endif %}
+
+                        {% if Invoice.CustomerEmail %}
+                            <span>
+                                {{Invoice.CustomerEmail}}
+                            </span>
+                        {% endif %}
                     </div>
 
                     <div class="InvoiceTemplateInfo__addressBillToList">
@@ -268,39 +354,57 @@
                             Bill To
                         </span>
 
-                        <span>
-                            WESS Per
-                        </span>
+                        {% if BillTo.FullName %}
+                            <span>
+                                {{BillTo.FullName}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            1121 Potters Wheel Cres
-                        </span>
+                        {% if BillTo.BillingAddress %}
+                            <span>
+                                {{BillTo.BillingAddress}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            Oakville Ontario L6M1J3
-                        </span>
+                        {% if BillTo.Phone %}
+                            <span>
+                                {{BillTo.Phone}}
+                            </span>
+                        {% endif %}
 
-                        <span>
-                            Canada
-                        </span>
-
-                        <span>
-                            +1 289-772-5510
-                        </span>
-
-                        <span>
-                            wes+3232@cappers.ca
-                        </span>
+                        {% if BillTo.Email %}
+                            <span>
+                                {{BillTo.Email}}
+                            </span>
+                        {% endif %}
                     </div>
                 </div>
 
                 <h2>
-                    $84.75 USD due July 26, 2023
+                    &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}} USD
+
+                    {% if Invoice.Paid %}
+                        paid on {{Invoice.StatusTransitions.PaidAt | format_date: 'MMMM d, yyyy'}}
+                    {% else %}
+                        due {{Invoice.DueDate | format_date: 'MMMM d, yyyy'}}
+                    {% endif %}
                 </h2>
 
-                <a class="InvoiceTemplateInfo__payLink" href="#">
-                    Pay online
-                </a>
+                {% if Invoice.Status == "open" %}
+                    <a
+                        class="InvoiceTemplateInfo__payLink"
+                        href="{{HostedUrl}}"
+                        target="_blank"
+                    >
+                        Pay online
+                    </a>
+                {% endif %}
+
+                {% if Invoice.Description %}
+                    <div class="InvoiceTemplateDescription">
+                        {{Invoice.Description}}
+                    </div>
+                {% endif %}
 
                 <div class="InvoiceTemplateTable">
                     <table class="InvoiceTemplateTable__table">
@@ -329,74 +433,132 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="InvoiceTemplateTable__description">
-                                        <span>Custom</span>
+                            {% for Item in Invoice.Lines %}
+                                {% assign ItemCategories = Item.Price.Id | categories %}
 
-                                        <span>Jul 16 - Oct 16, 2023</span>
-                                    </div>
-                                </td>
+                                <tr>
+                                    <td>
+                                        <div class="InvoiceTemplateTable__description">
+                                            <span>{{Item.Description | default: 'N/A'}}</span>
 
-                                <td>1</td>
+                                            {% if ItemCategories %}
+                                                <div class="InvoiceTemplateTable__descriptionListWrap">
+                                                    <span>Included:</span>
 
-                                <td>$75.00</td>
+                                                    <ul class="InvoiceTemplateTable__descriptionList">
+                                                        {% for ItemCategory in ItemCategories %}
+                                                            <li>{{ItemCategory.NameSingular}}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </td>
 
-                                <td>13%</td>
+                                    <td>{{Item.Quantity | default: 'N/A'}}</td>
 
-                                <td>$75.00</td>
-                            </tr>
+                                    <td>
+                                        {% if Item.UnitAmountExcludingTax %}
+                                            &#36;{{Item.UnitAmountExcludingTax | divided_by: 100 | format_number: 'N2'}}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% assign current_tax_rate = Invoice.DefaultTaxRates | where: 'Id', Item.TaxAmounts[0].TaxRateId %}
+
+                                        {% if current_tax_rate[0].Percentage %}
+                                            {{current_tax_rate[0].Percentage}} &#37;
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if Item.Amount %}
+                                            &#36;{{Item.Amount | divided_by: 100 | format_number: 'N2'}}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
 
                 <div class="InvoiceTemplateTotals">
-                    <div class="InvoiceTemplateTotals__row">
-                        <span>Subtotal</span>
+                    {% if Invoice.Subtotal %}
+                        <div class="InvoiceTemplateTotals__row">
+                            <span>Subtotal</span>
 
-                        <span>$75.00</span>
-                    </div>
+                            <span>
+                                &#36;{{Invoice.Subtotal | divided_by: 100 | format_number: 'N2'}}
+                            </span>
+                        </div>
+                    {% endif %}
+
+                    {% if Invoice.TotalDiscountAmounts[0].Amount %}
+                        <div class="InvoiceTemplateTotals__row">
+                            <span>
+                                {{Invoice.TotalDiscountAmounts[0].Discount.Coupon.Name}}
+
+                                &#40;{{Invoice.TotalDiscountAmounts[0].Discount.Coupon.PercentOff}}&#37; off&#41;
+                            </span>
+
+                            <span>
+                                &#45;&#36;{{Invoice.TotalDiscountAmounts[0].Amount | divided_by: 100 | format_number: 'N2'}}
+                            </span>
+                        </div>
+                    {% endif %}
 
                     <div class="InvoiceTemplateTotals__row">
                         <span>Total excluding tax</span>
 
-                        <span>$75.00</span>
+                        <span>
+                            &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}
+                        </span>
                     </div>
 
                     <div class="InvoiceTemplateTotals__row">
-                        <span>TAX (13% on $75.00)</span>
+                        <span>TAX &#40;{{Invoice.DefaultTaxRates[0].Percentage}}&#37; on &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}&#41;</span>
 
-                        <span>$9.75</span>
+                        <span>
+                            &#36;{{Invoice.Tax | divided_by: 100 | format_number: 'N2'}}
+                        </span>
                     </div>
 
                     <div class="InvoiceTemplateTotals__row">
                         <span>Total</span>
 
-                        <span>$84.75</span>
+                        <span>
+                            &#36;{{Invoice.Total | divided_by: 100 | format_number: 'N2'}}
+                        </span>
                     </div>
 
                     <div class="InvoiceTemplateTotals__row InvoiceTemplateTotals__row_bold">
+                        {% if Type == "INVOICE" %}
                         <span>Amount due</span>
 
-                        <span>$84.75 USD</span>
+                        <span>
+                            &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}} USD
+                        </span>
+                        {% else %}
+                        <span>Amount paid</span>
+
+                        <span>
+                            &#36;{{Invoice.AmountPaid | divided_by: 100 | format_number: 'N2'}} USD
+                        </span>
+                        {% endif %}
                     </div>
                 </div>
 
-                <footer>
-                    <span class="InvoiceTemplateFooter__footnote">
-                        *All dollar values in USD
-                    </span>
-
-                    <div class="InvoiceTemplateFooter__bottom">
-                        <span>
-                            HST: 721806891
-                        </span>
-
-                        <span>
-                            Company Registration No: 721806891 RT0001
-                        </span>
-                    </div>
-                </footer>
+                {% if Invoice.Footer %}
+                    <footer>
+                        {{Invoice.Footer | raw}}
+                    </footer>
+                {% endif %}
             </div>
         </div>
     </body>
