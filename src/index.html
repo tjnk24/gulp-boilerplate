@@ -69,7 +69,6 @@
                 width: 100%;
                 max-width: 700px;
                 justify-content: space-between;
-                flex-wrap: wrap;
                 margin-bottom: 46px;
             }
 
@@ -81,6 +80,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 4px;
+                width: 50%;
             }
 
             .InvoiceTemplateInfo__payLink {
@@ -197,6 +197,14 @@
             }
 
             @media screen and (max-width: 400px) {
+                .InvoiceTemplateInfo__addressBillTo {
+                    flex-direction: column;
+                }
+
+                .InvoiceTemplateInfo__addressBillToList {
+                    width: 100%;
+                }
+
                 .InvoiceTemplateInfo__row {
                     flex-direction: column;
                     gap: 4px;
