@@ -73,7 +73,11 @@
                             <img
                                 class="max-width"
                                 border="0"
-                                style="display: block;"
+                                style="
+                                    display: block;
+                                    width: 30px;
+                                    height: 30px;
+                                "
                                 width="30"
                                 height="30"
                                 alt="logo"
@@ -132,19 +136,7 @@
                             font-weight: 600;
                             font-size: 36px;
                         ">
-                            $3,389.99
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="width: 32px"></td>
-
-                        <td style="
-                            color: #9a9995;
-                            font-weight: 600;
-                            font-size: 14px;
-                        ">
-                            Due November 10, 2022
+                            &#36;{{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'N2'}}
                         </td>
                     </tr>
 
@@ -172,7 +164,8 @@
 
                         <td colspan="2">
                             <a
-                                href="#"
+                                href="{{ Invoice | invoice_pdf }}"
+                                target="_blank"
                                 style="
                                     display: inline-block;
                                     text-decoration: none;
@@ -189,6 +182,8 @@
                                     style="
                                         display:block;
                                         float: left;
+                                        width: 25px;
+                                        height: 30px;
                                     "
                                     width="25"
                                     height="30"
@@ -210,7 +205,8 @@
                             </a>
 
                             <a
-                                href="#"
+                                href="{{ Invoice | receipt_pdf }}"
+                                target="_blank"
                                 style="
                                     display: inline-block;
                                     text-decoration: none;
@@ -225,6 +221,8 @@
                                     style="
                                         display:block;
                                         float: left;
+                                        width: 25px;
+                                        height: 30px;
                                     "
                                     width="25"
                                     height="30"
@@ -261,7 +259,7 @@
                             font-weight: 600;
                             text-align: right;
                         ">
-                            2566-9593
+                            {{Invoice.ReceiptNumber}}
                         </td>
 
                         <td style="width: 32px"></td>
@@ -281,7 +279,7 @@
                             font-weight: 600;
                             text-align: right;
                         ">
-                            38778873-0002
+                            {{Invoice.Number | default: 'N/A'}}
                         </td>
 
                         <td style="width: 32px"></td>
@@ -301,7 +299,7 @@
                             font-weight: 600;
                             text-align: right;
                         ">
-                            - 9402
+                            {{ Invoice.Charge.PaymentMethodDetails | display_charge_payment_method }}
                         </td>
 
                         <td style="width: 32px"></td>
@@ -342,7 +340,7 @@
                             font-size: 14px;
                             font-weight: 600;
                         ">
-                            Receipt #2566-9593
+                            Receipt {{Invoice.ReceiptNumber}}
                         </td>
                     </tr>
 
@@ -353,114 +351,158 @@
                             color: #9a9995;
                             font-size: 14px;
                         ">
-                            SEP 25 - OCT 25, 2023
+                            {{Invoice.PeriodStart | format_date: 'MMM d, yyyy' | default: 'N/A'}} - {{Invoice.PeriodEnd | format_date: 'MMM d, yyyy' | default: 'N/A'}}
                         </td>
                     </tr>
 
-                    <tr>
-                        <td style="width: 32px"></td>
+                    {% for Item in Invoice.Lines %}
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                        <td style="
-                            color: #9a9995;
-                            font-size: 14px;
-                        ">
-                            <span style="
-                                font-weight: 600;
-                                display: block;
+                            <td style="
+                                color: #9a9995;
+                                font-size: 14px;
                             ">
-                                Substack Monthly Early Morning with Dave
-                            </span>
+                                <span style="
+                                    font-weight: 600;
+                                    display: block;
+                                ">
+                                    {{Item.Description | default: 'N/A'}}
+                                </span>
 
-                            <span style="color: #9a9995;">
-                                Qty 1
-                            </span>
-                        </td>
+                                <span style="color: #9a9995;">
+                                    Qty {{Item.Quantity | default: 'N/A'}}
+                                </span>
+                            </td>
 
-                        <td style="
-                            font-weight: 600;
-                            vertical-align: top;
-                            text-align: right;
-                            color: #221a0d;
-                        ">
-                            C$110.00
-                        </td>
+                            <td style="
+                                font-weight: 600;
+                                vertical-align: top;
+                                text-align: right;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Item.Amount | divided_by: 100.0 | format_number: 'N2'}}
+                            </td>
 
-                        <td style="width: 32px"></td>
-                    </tr>
+                            <td style="width: 32px"></td>
+                        </tr>
 
-                    <tr style="height: 16px;"></tr>
+                        <tr style="height: 16px;"></tr>
 
-                    <tr>
-                        <td style="width: 32px"></td>
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                        <td
-                            colspan="2"
-                            style="border-bottom: solid 2px #efefef;"
-                        ></td>
-                    </tr>
+                            <td
+                                colspan="2"
+                                style="border-bottom: solid 2px #efefef;"
+                            ></td>
+                        </tr>
 
-                    <tr style="height: 16px;"></tr>
+                        <tr style="height: 16px;"></tr>
+                    {% endfor %}
 
-                    <tr>
-                        <td style="width: 32px"></td>
+                    {% if Invoice.Total %}
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                        <td style="
-                            color: #9a9995;
-                            font-size: 14px;
-                            font-weight: 600;
-                        ">
+                            <td style="
+                                color: #9a9995;
+                                font-size: 14px;
+                                font-weight: 600;
+                            ">
+                                Total
+                            </td>
 
-                            Total
-                        </td>
+                            <td style="
+                                font-weight: 600;
+                                vertical-align: top;
+                                text-align: right;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Invoice.Total | divided_by: 100.0 | format_number: 'N2'}}
+                            </td>
 
-                        <td style="
-                            font-weight: 600;
-                            vertical-align: top;
-                            text-align: right;
-                            color: #221a0d;
-                        ">
-                            C$110.00
-                        </td>
+                            <td style="width: 32px"></td>
+                        </tr>
 
-                        <td style="width: 32px"></td>
-                    </tr>
+                        <tr style="height: 16px;"></tr>
 
-                    <tr style="height: 16px;"></tr>
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                    <tr>
-                        <td style="width: 32px"></td>
+                            <td
+                                colspan="2"
+                                style="border-bottom: solid 2px #efefef;"
+                            ></td>
+                        </tr>
 
-                        <td
-                            colspan="2"
-                            style="border-bottom: solid 2px #efefef;"
-                        ></td>
-                    </tr>
+                        <tr style="height: 16px;"></tr>
+                    {% endif %}
 
-                    <tr style="height: 16px;"></tr>
+                    {% if Invoice.StartingBalance %}
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                    <tr>
-                        <td style="width: 32px"></td>
+                            <td style="
+                                color: #9a9995;
+                                font-size: 14px;
+                                font-weight: 600;
+                            ">
+                                Applied Balance
+                            </td>
 
-                        <td style="
-                            color: #9a9995;
-                            font-size: 14px;
-                            font-weight: 600;
-                        ">
+                            <td style="
+                                font-weight: 600;
+                                vertical-align: top;
+                                text-align: right;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Invoice.StartingBalance | divided_by: 100.0 | format_number: 'N2'}}
+                            </td>
 
-                            Amount paid
-                        </td>
+                            <td style="width: 32px"></td>
+                        </tr>
 
-                        <td style="
-                            font-weight: 600;
-                            vertical-align: top;
-                            text-align: right;
-                            color: #221a0d;
-                        ">
-                            C$110.00
-                        </td>
+                        <tr style="height: 16px;"></tr>
 
-                        <td style="width: 32px"></td>
-                    </tr>
+                        <tr>
+                            <td style="width: 32px"></td>
+
+                            <td
+                                colspan="2"
+                                style="border-bottom: solid 2px #efefef;"
+                            ></td>
+                        </tr>
+
+                        <tr style="height: 16px;"></tr>
+                    {% endif %}
+
+
+                    {% if Invoice.AmountPaid %}
+                        <tr>
+                            <td style="width: 32px"></td>
+
+                            <td style="
+                                color: #9a9995;
+                                font-size: 14px;
+                                font-weight: 600;
+                            ">
+
+                                Amount paid
+                            </td>
+
+                            <td style="
+                                font-weight: 600;
+                                vertical-align: top;
+                                text-align: right;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'N2'}}
+                            </td>
+
+                            <td style="width: 32px"></td>
+                        </tr>
+                    {% endif %}
 
                     <tr style="height: 80px;">
                         <td style="width: 32px"></td>
