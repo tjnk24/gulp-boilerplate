@@ -545,6 +545,16 @@
                         </span>
                     </div>
 
+                    {% if Invoice.StartingBalance %}
+                        <div class="InvoiceTemplateTotals__row">
+                            <span>Applied Balance</span>
+
+                            <span>
+                                &#36;{{Invoice.StartingBalance | divided_by: 100.0 | format_number: 'N2'}}
+                            </span>
+                        </div>
+                    {% endif %}
+
                     <div class="InvoiceTemplateTotals__row InvoiceTemplateTotals__row_bold">
                         {% if Type == "INVOICE" %}
                         <span>Amount due</span>
