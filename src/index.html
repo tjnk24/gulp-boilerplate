@@ -136,7 +136,7 @@
                             font-weight: 600;
                             font-size: 36px;
                         ">
-                            &#36;{{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'N2'}}
+                            {{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'C2', 'en'}}
                         </td>
                     </tr>
 
@@ -381,7 +381,7 @@
                                 text-align: right;
                                 color: #221a0d;
                             ">
-                                &#36;{{Item.Amount | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Item.Amount | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
@@ -419,7 +419,7 @@
                                 text-align: right;
                                 color: #221a0d;
                             ">
-                                &#36;{{Invoice.Total | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Invoice.Total | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
@@ -457,7 +457,7 @@
                                 text-align: right;
                                 color: #221a0d;
                             ">
-                                &#36;{{Invoice.StartingBalance | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Invoice.StartingBalance | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
@@ -497,7 +497,7 @@
                                 text-align: right;
                                 color: #221a0d;
                             ">
-                                &#36;{{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
