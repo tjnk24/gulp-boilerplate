@@ -310,51 +310,34 @@
                     <div class="InvoiceTemplateInfo__addressBillToList">
                         {% if Invoice.AccountName %}
                             <span class="InvoiceTemplateInfo__addressBillToTitle">
-                                {{Invoice.AccountName}}
+                                Rosenberg Research & Associates Inc.
                             </span>
                         {% endif %}
 
-                        {% if Invoice.CustomerAddress.Line1 %}
-                            <span>
-                                {{Invoice.CustomerAddress.Line1}}
-                            </span>
-                        {% endif %}
+                        <span>
+                            3080 Yonge Street
+                        </span>
 
-                        {% if Invoice.CustomerAddress.Country %}
-                            <span>
-                                {{Invoice.CustomerAddress.Country}}
-                            </span>
-                        {% endif %}
+                        <span>
+                            Suite 6060
+                        </span>
 
-                        {% if Invoice.CustomerAddress.State %}
-                            <span>
-                                {{Invoice.CustomerAddress.State}}
-                            </span>
-                        {% endif %}
+                        <span>
+                            Toronto Ontario M4N 3N1
+                        </span>
 
-                        {% if Invoice.CustomerAddress.City %}
-                            <span>
-                                {{Invoice.CustomerAddress.City}}
-                            </span>
-                        {% endif %}
+                        <span>
+                            Canada
+                        </span>
 
-                        {% if Invoice.CustomerAddress.PostalCode %}
-                            <span>
-                                {{Invoice.CustomerAddress.PostalCode}}
-                            </span>
-                        {% endif %}
+                        <span>
+                            +1 416-583-5566
+                        </span>
 
-                        {% if Invoice.CustomerPhone %}
-                            <span>
-                                {{Invoice.CustomerPhone}}
-                            </span>
-                        {% endif %}
+                        <span>
+                            information@rosenbergresearch.com
+                        </span>
 
-                        {% if Invoice.CustomerEmail %}
-                            <span>
-                                {{Invoice.CustomerEmail}}
-                            </span>
-                        {% endif %}
                     </div>
 
                     <div class="InvoiceTemplateInfo__addressBillToList">
@@ -389,7 +372,7 @@
                 </div>
 
                 <h2>
-                    &#36;{{Invoice.AmountDue | divided_by: 100.0 | format_number: 'N2'}} USD
+                    &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}} USD
 
                     {% if Invoice.Paid %}
                         paid on {{Invoice.StatusTransitions.PaidAt | format_date: 'MMMM d, yyyy'}}
@@ -467,7 +450,7 @@
 
                                     <td>
                                         {% if Item.UnitAmountExcludingTax %}
-                                            &#36;{{Item.UnitAmountExcludingTax | divided_by: 100.0 | format_number: 'N2'}}
+                                            &#36;{{Item.UnitAmountExcludingTax | divided_by: 100 | format_number: 'N2'}}
                                         {% else %}
                                             N/A
                                         {% endif %}
@@ -485,7 +468,7 @@
 
                                     <td>
                                         {% if Item.Amount %}
-                                            &#36;{{Item.Amount | divided_by: 100.0 | format_number: 'N2'}}
+                                            &#36;{{Item.Amount | divided_by: 100 | format_number: 'N2'}}
                                         {% else %}
                                             N/A
                                         {% endif %}
@@ -502,7 +485,7 @@
                             <span>Subtotal</span>
 
                             <span>
-                                &#36;{{Invoice.Subtotal | divided_by: 100.0 | format_number: 'N2'}}
+                                &#36;{{Invoice.Subtotal | divided_by: 100 | format_number: 'N2'}}
                             </span>
                         </div>
                     {% endif %}
@@ -516,7 +499,7 @@
                             </span>
 
                             <span>
-                                &#45;&#36;{{Invoice.TotalDiscountAmounts[0].Amount | divided_by: 100.0 | format_number: 'N2'}}
+                                &#45;&#36;{{Invoice.TotalDiscountAmounts[0].Amount | divided_by: 100 | format_number: 'N2'}}
                             </span>
                         </div>
                     {% endif %}
@@ -525,15 +508,15 @@
                         <span>Total excluding tax</span>
 
                         <span>
-                            &#36;{{Invoice.TotalExcludingTax | divided_by: 100.0 | format_number: 'N2'}}
+                            &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}
                         </span>
                     </div>
 
                     <div class="InvoiceTemplateTotals__row">
-                        <span>TAX &#40;{{Invoice.DefaultTaxRates[0].Percentage}}&#37; on &#36;{{Invoice.TotalExcludingTax | divided_by: 100.0 | format_number: 'N2'}}&#41;</span>
+                        <span>TAX &#40;{{Invoice.DefaultTaxRates[0].Percentage}}&#37; on &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}&#41;</span>
 
                         <span>
-                            &#36;{{Invoice.Tax | divided_by: 100.0 | format_number: 'N2'}}
+                            &#36;{{Invoice.Tax | divided_by: 100 | format_number: 'N2'}}
                         </span>
                     </div>
 
@@ -545,28 +528,18 @@
                         </span>
                     </div>
 
-                    {% if Invoice.StartingBalance %}
-                        <div class="InvoiceTemplateTotals__row">
-                            <span>Applied Balance</span>
-
-                            <span>
-                                &#36;{{Invoice.StartingBalance | divided_by: 100.0 | format_number: 'N2'}}
-                            </span>
-                        </div>
-                    {% endif %}
-
                     <div class="InvoiceTemplateTotals__row InvoiceTemplateTotals__row_bold">
                         {% if Type == "INVOICE" %}
                         <span>Amount due</span>
 
                         <span>
-                            &#36;{{Invoice.AmountDue | divided_by: 100.0 | format_number: 'N2'}} USD
+                            &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}} USD
                         </span>
                         {% else %}
                         <span>Amount paid</span>
 
                         <span>
-                            &#36;{{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'N2'}} USD
+                            &#36;{{Invoice.AmountPaid | divided_by: 100 | format_number: 'N2'}} USD
                         </span>
                         {% endif %}
                     </div>
