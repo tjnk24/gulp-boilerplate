@@ -133,7 +133,7 @@
                             font-weight: 600;
                             font-size: 36px;
                         ">
-                            &#36;{{Invoice.AmountDue | divided_by: 100.0 | format_number: 'N2'}}
+                            {{Invoice.AmountDue | divided_by: 100.0 | format_number: 'C2', 'en'}}
                         </td>
                     </tr>
 
@@ -361,7 +361,7 @@
                                 text-align: right;
                                 color: #221a0d;
                             ">
-                                &#36;{{Item.Amount | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Item.Amount | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
@@ -399,7 +399,7 @@
                                 text-align: right;
                                 color: #221a0d;
                             ">
-                                &#36;{{Invoice.Subtotal | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Invoice.Subtotal | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
@@ -427,7 +427,7 @@
                                 color: #9a9995;
                                 font-size: 14px;
                             ">
-                                TAX &#40;{{Invoice.DefaultTaxRates[0].Percentage}}&#37; on &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}&#41;
+                                TAX &#40;{{Invoice.DefaultTaxRates[0].Percentage}}&#37; on {{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'C2', 'en'}}&#41;
                             </td>
 
                             <td style="
@@ -435,7 +435,7 @@
                                 font-weight: 600;
                                 color: #221a0d;
                             ">
-                                &#36;{{Invoice.Tax | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Invoice.Tax | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
@@ -458,7 +458,7 @@
                                 font-weight: 600;
                                 color: #221a0d;
                             ">
-                                &#36;{{Invoice.StartingBalance | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Invoice.StartingBalance | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
@@ -491,7 +491,7 @@
                                 text-align: right;
                                 color: #221a0d;
                             ">
-                                &#36;{{Invoice.AmountDue | divided_by: 100.0 | format_number: 'N2'}}
+                                {{Invoice.AmountDue | divided_by: 100.0 | format_number: 'C2', 'en'}}
                             </td>
 
                             <td style="width: 32px"></td>
