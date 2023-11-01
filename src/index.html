@@ -372,7 +372,7 @@
                 </div>
 
                 <h2>
-                    &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}} USD
+                    &#36;{{Invoice.AmountDue | divided_by: 100.0 | format_number: 'N2'}} USD
 
                     {% if Invoice.Paid %}
                         paid on {{Invoice.StatusTransitions.PaidAt | format_date: 'MMMM d, yyyy'}}
@@ -450,7 +450,7 @@
 
                                     <td>
                                         {% if Item.UnitAmountExcludingTax %}
-                                            &#36;{{Item.UnitAmountExcludingTax | divided_by: 100 | format_number: 'N2'}}
+                                            &#36;{{Item.UnitAmountExcludingTax | divided_by: 100.0 | format_number: 'N2'}}
                                         {% else %}
                                             N/A
                                         {% endif %}
@@ -468,7 +468,7 @@
 
                                     <td>
                                         {% if Item.Amount %}
-                                            &#36;{{Item.Amount | divided_by: 100 | format_number: 'N2'}}
+                                            &#36;{{Item.Amount | divided_by: 100.0 | format_number: 'N2'}}
                                         {% else %}
                                             N/A
                                         {% endif %}
@@ -485,7 +485,7 @@
                             <span>Subtotal</span>
 
                             <span>
-                                &#36;{{Invoice.Subtotal | divided_by: 100 | format_number: 'N2'}}
+                                &#36;{{Invoice.Subtotal | divided_by: 100.0 | format_number: 'N2'}}
                             </span>
                         </div>
                     {% endif %}
@@ -499,7 +499,7 @@
                             </span>
 
                             <span>
-                                &#45;&#36;{{Invoice.TotalDiscountAmounts[0].Amount | divided_by: 100 | format_number: 'N2'}}
+                                &#45;&#36;{{Invoice.TotalDiscountAmounts[0].Amount | divided_by: 100.0 | format_number: 'N2'}}
                             </span>
                         </div>
                     {% endif %}
@@ -508,7 +508,7 @@
                         <span>Total excluding tax</span>
 
                         <span>
-                            &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}
+                            &#36;{{Invoice.TotalExcludingTax | divided_by: 100.0 | format_number: 'N2'}}
                         </span>
                     </div>
 
@@ -516,7 +516,7 @@
                         <span>TAX &#40;{{Invoice.DefaultTaxRates[0].Percentage}}&#37; on &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}&#41;</span>
 
                         <span>
-                            &#36;{{Invoice.Tax | divided_by: 100 | format_number: 'N2'}}
+                            &#36;{{Invoice.Tax | divided_by: 100.0 | format_number: 'N2'}}
                         </span>
                     </div>
 
@@ -533,13 +533,13 @@
                         <span>Amount due</span>
 
                         <span>
-                            &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}} USD
+                            &#36;{{Invoice.AmountDue | divided_by: 100.0 | format_number: 'N2'}} USD
                         </span>
                         {% else %}
                         <span>Amount paid</span>
 
                         <span>
-                            &#36;{{Invoice.AmountPaid | divided_by: 100 | format_number: 'N2'}} USD
+                            &#36;{{Invoice.AmountPaid | divided_by: 100.0 | format_number: 'N2'}} USD
                         </span>
                         {% endif %}
                     </div>
