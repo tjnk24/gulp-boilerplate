@@ -73,7 +73,11 @@
                             <img
                                 class="max-width"
                                 border="0"
-                                style="display: block;"
+                                style="
+                                    display: block;
+                                    width: 30px;
+                                    height: 30px;
+                                "
                                 width="30"
                                 height="30"
                                 alt="logo"
@@ -129,7 +133,7 @@
                             font-weight: 600;
                             font-size: 36px;
                         ">
-                            $3,389.99
+                            &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}}
                         </td>
                     </tr>
 
@@ -141,7 +145,7 @@
                             font-weight: 600;
                             font-size: 14px;
                         ">
-                            Due November 10, 2022
+                            Due {{Invoice.DueDate | format_date: 'MMMM d, yyyy' | default: 'N/A'}}
                         </td>
                     </tr>
 
@@ -165,7 +169,8 @@
 
                         <td>
                             <a
-                                href="#"
+                                href="{{ Invoice | invoice_pdf }}"
+                                target="_blank"
                                 style="
                                     display: inline-block;
                                     text-decoration: none;
@@ -180,6 +185,8 @@
                                     style="
                                         display:block;
                                         float: left;
+                                        width: 25px;
+                                        height: 30px;
                                     "
                                     width="25"
                                     height="30"
@@ -204,47 +211,51 @@
 
                     <tr style="height: 30px;"></tr>
 
-                    <tr style="
-                        height: 22px;
-                        font-size: 14px;
-                    ">
-                        <td style="width: 32px"></td>
+                    {% if BillTo.FullName %}
+                        <tr style="
+                            height: 22px;
+                            font-size: 14px;
+                        ">
+                            <td style="width: 32px"></td>
 
-                        <td>
-                            <span style="
-                                width: 54px;
-                                display: inline-block;
-                                color: #9a9995;
-                            ">
-                                To
-                            </span>
+                            <td>
+                                <span style="
+                                    width: 54px;
+                                    display: inline-block;
+                                    color: #9a9995;
+                                ">
+                                    To
+                                </span>
 
-                            <span>
-                                test test
-                            </span>
-                        </td>
-                    </tr>
+                                <span>
+                                    {{BillTo.FullName}}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endif %}
 
-                    <tr style="
-                        height: 22px;
-                        font-size: 14px;
-                    ">
-                        <td style="width: 32px"></td>
+                    {% if Invoice.AccountName %}
+                        <tr style="
+                            height: 22px;
+                            font-size: 14px;
+                        ">
+                            <td style="width: 32px"></td>
 
-                        <td>
-                            <span style="
-                                width: 54px;
-                                display: inline-block;
-                                color: #9a9995;
-                            ">
-                                From
-                            </span>
+                            <td>
+                                <span style="
+                                    width: 54px;
+                                    display: inline-block;
+                                    color: #9a9995;
+                                ">
+                                    From
+                                </span>
 
-                            <span>
-                                Rosenberg Research & Associates inc.
-                            </span>
-                        </td>
-                    </tr>
+                                <span>
+                                    {{Invoice.AccountName}}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endif %}
 
                     <tr style="height: 26px;"></tr>
 
@@ -253,7 +264,8 @@
 
                         <td>
                             <a
-                                href="#"
+                                href="{{HostedUrl}}"
+                                target="_blank"
                                 style="
                                     display: block;
                                     width: 100%;
@@ -308,7 +320,7 @@
                             font-size: 14px;
                             font-weight: 600;
                         ">
-                            Invoice #AEC0AA6F-0001
+                            Invoice {{Invoice.Number | default: 'N/A'}}
                         </td>
                     </tr>
 
@@ -319,79 +331,44 @@
                             color: #9a9995;
                             font-size: 14px;
                         ">
-                            OCT 31, 2022 - OCT 31, 2023
+                            {{Invoice.PeriodStart | format_date: 'MMM d, yyyy' | default: 'N/A'}} - {{Invoice.PeriodEnd | format_date: 'MMM d, yyyy' | default: 'N/A'}}
                         </td>
                     </tr>
 
-                    <tr>
-                        <td style="width: 32px"></td>
+                    {% for Item in Invoice.Lines %}
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                        <td style="
-                            color: #221a0d;
-                            font-size: 14px;
-                        ">
-                            <span style="
-                                font-weight: 600;
-                                display: block;
+                            <td style="
+                                color: #221a0d;
+                                font-size: 14px;
                             ">
-                                Premium
-                            </span>
+                                <span style="
+                                    font-weight: 600;
+                                    display: block;
+                                ">
+                                    {{Item.Description | default: 'N/A'}}
+                                </span>
 
-                            <span style="color: #9a9995;">
-                                Qty 1
-                            </span>
-                        </td>
+                                <span style="color: #9a9995;">
+                                    Qty {{Item.Quantity | default: 'N/A'}}
+                                </span>
+                            </td>
 
-                        <td style="
-                            font-weight: 600;
-                            vertical-align: top;
-                            text-align: right;
-                            color: #221a0d;
-                        ">
-                            $3,000.00
-                        </td>
+                            <td style="
+                                font-weight: 600;
+                                vertical-align: top;
+                                text-align: right;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Item.Amount | divided_by: 100 | format_number: 'N2'}}
+                            </td>
 
-                        <td style="width: 32px"></td>
-                    </tr>
+                            <td style="width: 32px"></td>
+                        </tr>
 
-                    <tr style="height: 16px;"></tr>
-
-                    <tr>
-                        <td style="width: 32px"></td>
-
-                        <td
-                            colspan="2"
-                            style="border-bottom: solid 2px #efefef;"
-                        ></td>
-                    </tr>
-
-                    <tr style="height: 16px;"></tr>
-
-                    <tr>
-                        <td style="width: 32px"></td>
-
-                        <td style="
-                            color: #221a0d;
-                            font-size: 14px;
-                            font-weight: 600;
-                        ">
-
-                            Subtotal
-                        </td>
-
-                        <td style="
-                            font-weight: 600;
-                            vertical-align: top;
-                            text-align: right;
-                            color: #221a0d;
-                        ">
-                            $3,000.00
-                        </td>
-
-                        <td style="width: 32px"></td>
-                    </tr>
-
-                    <tr style="height: 16px;"></tr>
+                        <tr style="height: 16px;"></tr>
+                    {% endfor %}
 
                     <tr>
                         <td style="width: 32px"></td>
@@ -404,57 +381,99 @@
 
                     <tr style="height: 16px;"></tr>
 
-                    <tr style="height: 30px;">
-                        <td style="width: 32px"></td>
+                    {% if Invoice.Subtotal %}
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                        <td style="
-                            color: #9a9995;
-                            font-size: 14px;
-                        ">
-                            TAX (13%)
-                        </td>
+                            <td style="
+                                color: #221a0d;
+                                font-size: 14px;
+                                font-weight: 600;
+                            ">
+                                Subtotal
+                            </td>
 
-                        <td style="
-                            text-align: right;
-                            font-weight: 600;
-                            color: #221a0d;
-                        ">
-                            $390.00
-                        </td>
+                            <td style="
+                                font-weight: 600;
+                                vertical-align: top;
+                                text-align: right;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Invoice.Subtotal | divided_by: 100 | format_number: 'N2'}}
+                            </td>
 
-                        <td style="width: 32px"></td>
-                    </tr>
+                            <td style="width: 32px"></td>
+                        </tr>
+                    {% endif %}
 
-                    <tr style="height: 14px;">
-                        <td style="width: 32px"></td>
+                    <tr style="height: 16px;"></tr>
 
-                        <td
-                            colspan="2"
-                            style="border-bottom: solid 2px #efefef;"
-                        ></td>
-                    </tr>
+                    {% if Invoice.Tax %}
+                        <tr>
+                            <td style="width: 32px"></td>
 
-                    <tr style="height: 50px;">
-                        <td style="width: 32px"></td>
+                            <td
+                                colspan="2"
+                                style="border-bottom: solid 2px #efefef;"
+                            ></td>
+                        </tr>
 
-                        <td style="
-                            color: #221a0d;
-                            font-size: 14px;
-                            font-weight: 600;
-                        ">
-                            Amount due
-                        </td>
+                        <tr style="height: 16px;"></tr>
 
-                        <td style="
-                            font-weight: 600;
-                            text-align: right;
-                            color: #221a0d;
-                        ">
-                            $3,389.99
-                        </td>
+                        <tr style="height: 30px;">
+                            <td style="width: 32px"></td>
 
-                        <td style="width: 32px"></td>
-                    </tr>
+                            <td style="
+                                color: #9a9995;
+                                font-size: 14px;
+                            ">
+                                TAX &#40;{{Invoice.DefaultTaxRates[0].Percentage}}&#37; on &#36;{{Invoice.TotalExcludingTax | divided_by: 100 | format_number: 'N2'}}&#41;
+                            </td>
+
+                            <td style="
+                                text-align: right;
+                                font-weight: 600;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Invoice.Tax | divided_by: 100 | format_number: 'N2'}}
+                            </td>
+
+                            <td style="width: 32px"></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if Invoice.AmountDue %}
+                        <tr style="height: 14px;">
+                            <td style="width: 32px"></td>
+
+                            <td
+                                colspan="2"
+                                style="border-bottom: solid 2px #efefef;"
+                            ></td>
+                        </tr>
+
+                        <tr style="height: 50px;">
+                            <td style="width: 32px"></td>
+
+                            <td style="
+                                color: #221a0d;
+                                font-size: 14px;
+                                font-weight: 600;
+                            ">
+                                Amount due
+                            </td>
+
+                            <td style="
+                                font-weight: 600;
+                                text-align: right;
+                                color: #221a0d;
+                            ">
+                                &#36;{{Invoice.AmountDue | divided_by: 100 | format_number: 'N2'}}
+                            </td>
+
+                            <td style="width: 32px"></td>
+                        </tr>
+                    {% endif %}
 
                     <tr>
                         <td style="width: 32px"></td>
