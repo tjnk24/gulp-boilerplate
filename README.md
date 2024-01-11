@@ -1,4 +1,4 @@
-# GulpBoilerplate
+# Gulp boilerplate
 Gulp pipeline for making html/scss web pages.
 
 - SCSS
